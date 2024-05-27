@@ -1,6 +1,7 @@
 import pygame
 import random
 import sys
+from pygame import mixer
 
 # Dimensiones del campo de juego
 ROWS = 10
@@ -22,6 +23,26 @@ FRUITS = {
     "mango": {"value": 20, "image": "mango.png"},
     "blueberry": {"value": 15, "image": "blueberry.png"}
 }
+
+mixer.init()
+mixer.music.load("background.mp3")
+mixer.music.set_volume(0.5)  # Ajusta el volumen según tus preferencias
+mixer.music.play(-1, 0, 5000)  # Reproduce la música en bucle
+
+fruit_sounds = {
+    "apple": mixer.Sound("apple.mp3"),
+    "mango": mixer.Sound("mango.mp3"),
+    "blueberry": mixer.Sound("blueberry.mp3"),
+    "win":mixer.Sound("win.mp3") 
+}
+
+
+# Función para reproducir el sonido de una fruta
+def play_fruit_sound(fruit_type):
+    fruit_sounds[fruit_type].play()
+
+def play_win_sound():
+    fruit_sounds["win"].play()
 
 # Función para cargar imágenes y redimensionarlas
 def load_images():
@@ -113,7 +134,7 @@ def graph_distance(graph, start, end):
 def main():
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("Collect Fruits Game")
+    pygame.display.set_caption("FRUTIN")
     clock = pygame.time.Clock()
 
     player = Player(ROWS // 2, COLS // 2)
@@ -147,6 +168,7 @@ def main():
         for fruit in fruits[:]:
             if fruit.row == player.row and fruit.col == player.col:
                 player.score += fruit.value
+                play_fruit_sound(fruit.type)
                 fruits.remove(fruit)
 
         # Dibujar al jugador y las frutas
@@ -182,7 +204,8 @@ def main():
                 fruits = generate_fruits(10)
         elif not fruits:
             font = pygame.font.Font(None, 72)
-            game_over_text = font.render("You Win!", True, GREEN)
+            game_over_text = font.render("GANASTE!!!!", True, GREEN)
+            play_win_sound()
             screen.blit(game_over_text, (WIDTH // 2 - 150, HEIGHT // 2))
             pygame.display.flip()
             pygame.time.wait(3000)  # Mostrar el mensaje durante 3 segundos

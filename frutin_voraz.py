@@ -173,7 +173,7 @@ def main():
                 fruits = generate_fruits(10)
         elif not fruits:
             font = pygame.font.Font(None, 72)
-            game_over_text = font.render("You Win!", True, GREEN)
+            game_over_text = font.render("GANASTE!!!!", True, GREEN)
             screen.blit(game_over_text, (WIDTH // 2 - 150, HEIGHT // 2))
             pygame.display.flip()
             pygame.time.wait(3000)  # Mostrar el mensaje durante 3 segundos
