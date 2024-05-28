@@ -3,10 +3,10 @@ import random
 import sys
 from pygame import mixer
 
-# Dimensiones del campo de juego
+# Dimensiones del campo de juego (aumentadas)
 ROWS = 10
 COLS = 10
-CELL_SIZE = 50
+CELL_SIZE = 80  # Aumentado el tamaño de la celda
 WIDTH = COLS * CELL_SIZE
 HEIGHT = ROWS * CELL_SIZE
 
@@ -33,9 +33,8 @@ fruit_sounds = {
     "apple": mixer.Sound("apple.mp3"),
     "mango": mixer.Sound("mango.mp3"),
     "blueberry": mixer.Sound("blueberry.mp3"),
-    "win":mixer.Sound("win.mp3") 
+    "win": mixer.Sound("win.mp3")
 }
-
 
 # Función para reproducir el sonido de una fruta
 def play_fruit_sound(fruit_type):
@@ -75,7 +74,7 @@ class Player:
         screen.blit(self.image, (self.col * CELL_SIZE, self.row * CELL_SIZE))
         # Dibujar las marcas del jugador en el camino
         for row, col in self.path:
-            pygame.draw.circle(screen, LIGHT_BLUE, (col * CELL_SIZE + CELL_SIZE // 2, row * CELL_SIZE + CELL_SIZE // 2), 5)
+            pygame.draw.circle(screen, LIGHT_BLUE, (col * CELL_SIZE + CELL_SIZE // 2, row * CELL_SIZE + CELL_SIZE // 2), 8)
 
 # Clase para representar las frutas
 class Fruit:
@@ -161,9 +160,6 @@ def main():
                 elif event.key == pygame.K_RIGHT:
                     player.move(0, 1)   # Derecha
 
-        
-        
-
         # Verificar si el jugador recolectó una fruta
         for fruit in fruits[:]:
             if fruit.row == player.row and fruit.col == player.col:
@@ -177,13 +173,13 @@ def main():
             fruit.draw(screen)
 
         # Mostrar puntaje y tiempo restante en la pantalla
-        font = pygame.font.Font(None, 36)
+        font = pygame.font.Font(None, 48)  # Tamaño de fuente aumentado
         score_text = font.render("Score: " + str(player.score), True, WHITE)
         screen.blit(score_text, (10, 10))
         time_text = font.render("Time: " + str(int(time_remaining)), True, WHITE)
-        screen.blit(time_text, (10, 50))
+        screen.blit(time_text, (10, 70))
         attempts_text = font.render("Attempts: " + str(attempts_remaining), True, WHITE)
-        screen.blit(attempts_text, (10, 90))
+        screen.blit(attempts_text, (10, 130))
 
         # Actualizar el tiempo restante
         time_remaining -= 1 / 60
@@ -217,6 +213,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
